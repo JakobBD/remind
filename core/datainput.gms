@@ -356,8 +356,8 @@ $if %cm_techcosts% == "GLO"   pm_data(regi,"learnMult_wFC",teLearn(te))    = pm_
 $if %cm_techcosts% == "REG"   pm_data(regi,"learnMult_wFC",teLearn(te))    = pm_data(regi,"incolearn",te)/(sum(regi2,p_capCum("2015",regi2,te))**pm_data(regi,"learnExp_wFC",te));
 *** initialize spv learning curve in 2020
 $if %cm_techcosts% == "REG"   pm_data(regi,"learnMult_wFC","spv")    = pm_data(regi,"incolearn","spv")/(sum(regi2,p_capCum("2020",regi2,"spv"))**pm_data(regi,"learnExp_wFC","spv"));
-*FS initialize learning curve for most advanced technologies as defined by tech_stat = 4 in generisdata_tech.prn (with very small real-world capacities in 2020) 
-* equally for all regions based on global cumulate capacity of ccap0 and incolearn (difference between initial investment cost and floor cost) 
+*FS initialize learning curve for most advanced technologies as defined by tech_stat = 4 in generisdata_tech.prn (with very small real-world capacities in 2020)
+* equally for all regions based on global cumulate capacity of ccap0 and incolearn (difference between initial investment cost and floor cost)
 pm_data(regi,"learnMult_wFC",te)$( pm_data(regi,"tech_stat",te) eq 4 )
   = pm_data(regi,"incolearn",te)
   / ( fm_dataglob("ccap0",te)
@@ -666,13 +666,10 @@ pm_cf(ttot,regi,"tdsyngas") = 0.65;
 pm_cf(ttot,regi,"tdsynhos") = 0.6;
 pm_cf(ttot,regi,"tdsynpet") = 0.7;
 pm_cf(ttot,regi,"tdsyndie") = 0.7;
-*JD eternal short-term fix for process-based industry
-pm_cf(ttot,regi,"bf") = 0.8;
-pm_cf(ttot,regi,"bfcc") = 0.8;
-pm_cf(ttot,regi,"bof") = 0.8;
-pm_cf(ttot,regi,"idr") = 0.8;
-pm_cf(ttot,regi,"idrcc") = 0.8;
-pm_cf(ttot,regi,"eaf") = 0.8;
+
+pm_cf(ttot,regi,"steelcc") = 1.0;
+pm_cf(ttot,regi,"chemicalscc") = 1.0;
+pm_cf(ttot,regi,"cementcc") = 1.0;
 
 *RP* phasing down the ngt cf to "peak load" cf of 5%
 pm_cf(ttot,regi,"ngt")$(ttot.val eq 2025) = 0.9 * pm_cf(ttot,regi,"ngt");
@@ -1147,10 +1144,10 @@ loop(ttot$(ttot.val ge 2005),
   p_adj_seed_te(ttot,regi,"coaltr")          = 4.00;
   p_adj_seed_te(ttot,regi,'dac')             = 0.25;
   p_adj_seed_te(ttot,regi,'geohe')           = 0.33;
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-  p_adj_seed_te(ttot,regi,"bfcc")            = 0.05;
-  p_adj_seed_te(ttot,regi,"idrcc")           = 0.05;
-$endif.cm_subsec_model_steel
+
+  p_adj_seed_te(ttot,regi,"steelcc")         = 0.05;
+  p_adj_seed_te(ttot,regi,"chemicalscc")     = 0.05;
+  p_adj_seed_te(ttot,regi,"cementcc")        = 0.05;
 
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
   p_adj_seed_te(ttot,regi,"windoff") = 0.5;
@@ -1182,10 +1179,10 @@ $ENDIF.WindOff
   p_adj_coeff(ttot,regi,"spv")             = 0.15;
   p_adj_coeff(ttot,regi,"wind")            = 0.25;
   p_adj_coeff(ttot,regi,"geohe")           = 0.6;
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-  p_adj_coeff(ttot,regi,"bfcc")            = 1.0;
-  p_adj_coeff(ttot,regi,"idrcc")           = 1.0;
-$endif.cm_subsec_model_steel
+
+  p_adj_coeff(ttot,regi,"steelcc")         = 1.0;
+  p_adj_coeff(ttot,regi,"chemicalscc")     = 1.0;
+  p_adj_coeff(ttot,regi,"cementcc")        = 1.0;
 
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
 
@@ -1537,8 +1534,6 @@ $offdelim
 *** use cm_demScen for Industry and Buildings
 *** cm_GDPscen will be used for Transport (EDGE-T) (see p29_trpdemand)
 pm_fedemand(tall,all_regi,in) = f_fedemand(tall,all_regi,"%cm_demScen%",in);
-*** data input for industry FE that is no part of the CES tree
-pm_fedemand(tall,all_regi,ppfen_no_ces_use) = f_fedemand(tall,all_regi,"%cm_demScen%",ppfen_no_ces_use);
 
 *** RCP-dependent demands in buildings (climate impact)
 $ifthen.cm_rcp_scen_build NOT "%cm_rcp_scen_build%" == "none"

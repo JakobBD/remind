@@ -51,7 +51,6 @@ qm_budget(ttot,regi)$( ttot.val ge cm_startyear ) ..
   + pm_totLUcosts(ttot,regi)
 *** agricultural MACs are part of pm_totLUcosts (see module 26_agCosts)
   + sum(enty$(emiMacSector(enty) AND (NOT emiMacMagpie(enty))), pm_macCost(ttot,regi,enty))
-  + vm_costMatPrc(ttot,regi)
   + vm_costEnergySys(ttot,regi)
 ;
 

@@ -94,9 +94,7 @@ q_costOM(t,regi)..
     pm_data(regi,"omv",te)
       * (vm_prodSe(t,regi,enty,enty2,te)$entySe(enty2)
          + vm_prodFe(t,regi,enty,enty2,te)$entyFe(enty2)
-         + sum(tePrc2opmoPrc(tePrc(te),opmoPrc),
-               vm_outflowPrc(t,regi,te,opmoPrc)
-               )
+         + vm_captureVol(t,regi,te)$(teCCInd(te))
         )
   )
   +
@@ -954,7 +952,6 @@ q_costEnergySys(ttot,regi)$( ttot.val ge cm_startyear ) ..
     + v_costOM(ttot,regi)
     + v_costInv(ttot,regi)
     )
-  + sum(emiInd37, vm_IndCCSCost(ttot,regi,emiInd37))
   + pm_CementDemandReductionCost(ttot,regi)
 ;
 

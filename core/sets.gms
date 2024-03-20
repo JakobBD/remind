@@ -316,22 +316,12 @@ $ENDIF.WindOff
         termM_nh3   "Import terminals for liquid ammonia (regasification)"
         vess_nh3    "Vessels transporting liquid ammonia"
 *** PCV: technologies related to steel
-        ironMine     "Mining of iron ore"
-        idr          "Iron direct reduction"
-        eaf          "Electric-arc furnace"
-        bf           "Blast furnace"
-        bfcc         "Blast furnace CCS"
-        idrcc        "Direct reduction CCS"
-        bof          "Basic-oxygen furnace"
-        bfbof        "Route: BF/BOF without CCS"
-        bfbof_ccs    "Route: BF/BOF with CCS"
-        idreaf_h2    "Route: H2 Direct reduction / EAF"
-        idreaf_ng    "Route: NG Direct reduction / EAF without CCS"
-        idreaf_ng_ccs "Route: H2 Direct reduction / EAF with CCS"
-        seceaf       "Route: Scrap-loaded EAF"
+        steelcc      "Steel CCS"
+        chemicalscc  "Chemicals CCS"
+        cementcc     "Cement CCS"
         pcc          "outdated technology, only here to avoid compilation errors if input data containing information for this technology are used"
         pco          "outdated technology, only here to avoid compilation errors if input data containing information for this technology are used"
-*** transport technologies for deleted realization complex of module 35_transport 
+*** transport technologies for deleted realization complex of module 35_transport
 *** only here to make it possible to process input data that still includes data for these obsolete transport technologies
         apCarPeT        "outdated transport technology"
         apCarDiT        "outdated transport technology"
@@ -408,17 +398,6 @@ all_enty             "all types of quantities"
         ueLDVt       "transport useful energy light duty vehicles"
         ueelTt       "transport useful energy for electric trains"
 
-        !! materials, feedstock, and industrial goods
-        prsteel      "Primary steel"
-        sesteel      "Secondary steel"
-        dri          "Directly reduced iron"
-        eafscrap     "Steel scrap used in EAF"
-        bofscrap     "Steel scrap used in BOF"
-        pigiron      "Pig Iron"
-        driron       "Direct reduced iron"
-        ironore      "Iron ore"
-        dripell      "DRI pellets"
-
         !! emissions
         co2          "carbon dioxide emissions"
         ch4          "methane emissions"
@@ -493,7 +472,6 @@ all_enty             "all types of quantities"
         good         "Generic good"
         perm         "Carbon permit"
         peog         "aggregated oil and gas, only relevant for calibration because IEA only provides aggregated data"
-        bfco2        "CO2 emission from blast furnace"
 /
 
 all_esty "energy services"
@@ -1223,14 +1201,9 @@ $ENDIF.WindOff
         termX_lng       "Export terminals for LNG (liquification)"
         termM_lng       "Import terminals for LNG (regasification)"
         vess_lng        "Vessels transporting LNG"
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-        idr             "Iron direct reduction"
-        eaf             "Electric-arc furnace"
-        bf              "Blast furnace"
-        bof             "Basic-oxygen furnace"
-        bfcc            "Blast furnace CCS"
-        idrcc           "Direct reduction CCS"
-$endif.cm_subsec_model_steel
+        steelcc         "Steel CCS"
+        chemicalscc     "Chemicals CCS"
+        cementcc        "Cement CCS"
 /
 teAdj(all_te)           "technologies with adjustment costs on capacity additions"
 /
@@ -1306,10 +1279,9 @@ $ENDIF.WindOff
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
   gridwindoff     "grid between areas with high wind offshore production and the rest"
 $ENDIF.WindOff
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-  bfcc            "Blast furnace CCS"
-  idrcc           "Direct reduction CCS"
-$endif.cm_subsec_model_steel
+  steelcc         "Steel CCS"
+  chemicalscc     "Chemicals CCS"
+  cementcc        "Cement CCS"
 /
 
 ***-----------------------------------------------------------------------------
@@ -1793,15 +1765,6 @@ buildMoBio(all_esty) "modern biomass in buildings"
 entyUe(all_enty)      "Useful energy types"
 //
 
-entyFeStat(all_enty)  "final energy types from stationary sector"
-/
-        fegas        "FE gas stationary"
-        fehos        "FE heating oil stationary"
-        fesos        "FE solids stationary"
-        feels        "FE electricity stationary"
-        fehes        "FE district heating (including combined heat and power), and heat pumps stationary"
-        feh2s        "FE hydrogen stationary"
-/
 entyFeTrans(all_enty) "final energy types from transport sector"
 /
         fepet        "FE petrol transport"
@@ -2713,12 +2676,6 @@ emiMac2mac(all_enty,all_enty)            "mapping of emission sources to MACs - 
         n2osavan.n2osavan
         n2oforest.n2oforest
         co2luc.co2luc
-        co2cement_process. co2cement   "process emissions are captured by kiln CCS too"
-        co2cement    . co2cement
-        co2chemicals . co2chemicals
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "ces"
-        co2steel     . co2steel
-$endif.cm_subsec_model_steel
 /
 
 emiMac2sector(all_enty,emi_sectors,sector_types,all_enty)            "mapping of emission sources from MACs to sectors (and emissions)"
@@ -2734,10 +2691,7 @@ emiMac2sector(all_enty,emi_sectors,sector_types,all_enty)            "mapping of
         (n2ofertin, n2ofertcr, n2ofertsom, n2oanwstc, n2oanwstm, n2oanwstp, n2oagwaste).agriculture.process.n2o
         (n2oforest, n2osavan, n2opeatland).lulucf.process.n2o
 
-        (co2cement_process,co2cement,co2chemicals).indst.process.co2
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "ces"
-        co2steel.indst.process.co2
-$endif.cm_subsec_model_steel
+        co2cement_process.indst.process.co2
         (co2luc).lulucf.process.co2
 /
 
@@ -2838,7 +2792,7 @@ teFe2rlfH2BI(all_te,rlf) "mapping for final energy to grades of helper technolog
 teue2rlf(all_te,rlf)     "mapping for ES production technologies to grades"
 //
 
-teMat2rlf(all_te,rlf)     "mapping for material production technologies to grades"
+teCCInd2rlf(all_te,rlf)     "mapping for material production technologies to grades"
 //
 
 teCCS2rlf(all_te,rlf)     "mapping for CCS technologies to grades"

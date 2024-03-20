@@ -361,241 +361,35 @@ ppfen_MkupCost37(all_in)   "primary production factors in industry on which CES 
 *** A) one-dimensional sets
 *** -----------------------
 
-secInd37Prc(secInd37)   "Sub-sectors with process-based modeling"
+teCCInd(all_te)  "Technologies used in process-based model (including CCS)"
   /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-  steel
-$endif.cm_subsec_model_steel
-  /
-
-tePrc(all_te)  "Technologies used in process-based model (including CCS)"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    bf
-    bof
-    eaf
-    idr
-
-    bfcc
-    idrcc
-$endif.cm_subsec_model_steel
+    steelcc
+    chemicalscc
+    cementcc
   /
 
-mat(all_enty)   "Materials considered in process-based model; Can be input and/or output of a process"
+
+dummy2teCCInd(all_enty,all_enty,all_te)   "Set of industry technologies to be included in en2en, which connects capex and opex to budget"
   /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    prsteel
-    sesteel
-    eafscrap
-    bofscrap
-    pigiron
-    driron
-    ironore
-    dripell
-$endif.cm_subsec_model_steel
+    entydummy.entydummy.steelcc
+    entydummy.entydummy.chemicalscc
+    entydummy.entydummy.cementcc
   /
 
-matIn(all_enty)   "Materials which serve as input to a process"
+secInd37_teCCInd(secInd37,teCCInd)   "Mapping of technologies onto industry subsectors"
   /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    eafscrap   "Steel scrap used in EAF"
-    bofscrap   "Steel scrap used in BOF"
-    pigiron    "Pig iron"
-    driron     "Direct reduced iron"
-    ironore    "Iron ore"
-    dripell    "DRI pellets"
-$endif.cm_subsec_model_steel
-  /
-
-matOut(all_enty)   "Materials which serve as output of a process"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    prsteel
-    sesteel
-    pigiron
-    driron
-$endif.cm_subsec_model_steel
-  /
-
-matFin(mat)   "Final products of a process-based production route"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-   prsteel
-   sesteel
-$endif.cm_subsec_model_steel
-  /
-
-opmoPrc   "Operation modes for technologies in process-based model"
-  /
-    standard   "Only one operation mode implemented"
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    ng         "Direct reduction using natural gas"
-    h2         "Direct reduction using hydrogen"
-    unheated   "BOF operation with maximum amount of scrap possible without external heating"
-    pri        "Primary production of steel (based on iron ore or DRI)"
-    sec        "Secondary production of steel (based on scrap)"
-$endif.cm_subsec_model_steel
-  /
-
-ppfUePrc(all_in)   "Ue CES tree nodes connected to process based implementation, which therefore become primary production factors (ppf)"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-   ue_steel_primary
-   ue_steel_secondary
-$endif.cm_subsec_model_steel
-  /
-
-route(all_te)  "Process routes; Currently only used for reporting"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    idreaf_ng
-    idreaf_ng_ccs
-    idreaf_h2
-    bfbof
-    bfbof_ccs
-    seceaf
-$endif.cm_subsec_model_steel
-  /
-
-ppfen_no_ces_use(all_in)   "FE nodes of all_in that are not part of the CES tree in the process-based industry model; Needed for pm_fedemand data input"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    feso_steel
-    feli_steel
-    fega_steel
-    feh2_steel
-    feel_steel_primary
-    feel_steel_secondary
-$endif.cm_subsec_model_steel
-  /
-
-*** -----------------------
-*** B) mappings
-*** -----------------------
-
-tePrc2opmoPrc(tePrc,opmoPrc)   "Mapping of technologies onto available operation modes"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    idr . (ng,h2)
-    eaf . (pri,sec)
-    bf . (standard)
-    bof . (unheated)
-    bfcc . (standard)
-    idrcc . (ng)
-$endif.cm_subsec_model_steel
-  /
-
-tePrc2matIn(tePrc,opmoPrc,mat)   "Mapping of technologies onto input materials"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    idr . (h2,ng) . dripell
-    eaf . pri . driron
-    eaf . sec . eafscrap
-    bf  . standard . ironore
-    bof . unheated . (pigiron,bofscrap)
-$endif.cm_subsec_model_steel
-  /
-
-tePrc2matOut(tePrc,opmoPrc,mat)   "Mapping of industry process technologies onto their output materials"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-   bf  . standard . pigiron
-   bof . unheated . prsteel
-   idr . (h2,ng) . driron
-   eaf . pri . prsteel
-   eaf . sec . sesteel
-$endif.cm_subsec_model_steel
-  /
-
-tePrc2ue(tePrc,opmoPrc,all_in)   "Mapping of industry process technologies to the UE ces nodes they directly or indirectly feed into"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-   (bf,bfcc)  . standard . ue_steel_primary
-   bof . unheated . ue_steel_primary
-   idr . (h2,ng) . ue_steel_primary
-   idrcc . ng . ue_steel_primary
-   eaf . pri . ue_steel_primary
-   eaf . sec . ue_steel_secondary
-$endif.cm_subsec_model_steel
-  /
-
-tePrc2teCCPrc(tePrc,opmoPrc,tePrc,opmoPrc)  "Mapping of base technologies to CCS technologies"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    bf  . standard . bfcc  . standard
-    idr . ng       . idrcc . ng
-$endif.cm_subsec_model_steel
-  /
-
-tePrc2route(tePrc,opmoPrc,route)  "Mapping of technologies onto the production routes they belong to"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    eaf . sec . seceaf
-    idr . h2 . idreaf_h2
-    idr . ng . idreaf_ng
-    idr . ng . idreaf_ng_ccs
-    eaf . pri . idreaf_h2
-    eaf . pri . idreaf_ng
-    eaf . pri . idreaf_ng_ccs
-    idrcc . ng . idreaf_ng_ccs
-    bf  . standard . bfbof
-    bf  . standard . bfbof_ccs
-    bof . unheated . bfbof
-    bof . unheated . bfbof_ccs
-    bfcc . standard . bfbof_ccs
-$endif.cm_subsec_model_steel
-  /
-
-mat2ue(mat,all_in)   "Mapping of materials (final route products) onto the UE ces tree node the model is connected to"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-   prsteel . ue_steel_primary
-   sesteel . ue_steel_secondary
-$endif.cm_subsec_model_steel
-  /
-
-fe2mat(all_enty,all_enty,all_te)   "Set of industry technologies to be included in en2en, which connects capex and opex to budget"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    entydummy.entydummy.bf
-    entydummy.entydummy.bof
-    entydummy.entydummy.idr
-    entydummy.entydummy.eaf
-    entydummy.entydummy.bfcc
-    entydummy.entydummy.idrcc
-$endif.cm_subsec_model_steel
-  /
-
-secInd37_tePrc(secInd37,tePrc)   "Mapping of technologies onto industry subsectors"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    steel . idr
-    steel . eaf
-    steel . bf
-    steel . bof
-
-    steel . bfcc
-    steel . idrcc
-$endif.cm_subsec_model_steel
-  /
-
-fe2ppfen_no_ces_use(all_enty,all_in)   "Match ESM entyFe to ppfen that are not used in the CES tree, but for datainput for process-bases industry"
-  /
-$ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
-    fesos . feso_steel
-    fehos . feli_steel
-    fegas . fega_steel
-    feels . (feel_steel_primary, feel_steel_secondary)
-$endif.cm_subsec_model_steel
+    steel . steelcc
+    chemicals . chemicalscc
+    cement . cementcc
   /
 ;
+
 
 *** ---------------------------------------------------------------------------
 ***        add module-specifc sets and mappings to the global ones
 *** ---------------------------------------------------------------------------
 ppf_industry_dyn37(ppfKap_industry_dyn37)                              = YES;
 ppf_industry_dyn37(ppfen_industry_dyn37)                               = YES;
-ppf_industry_dyn37(ppfUePrc)                                           = YES;
 ipf_industry_dyn37(in_industry_dyn37)                                  = YES;
 ipf_industry_dyn37(ppf_industry_dyn37)                                 = NO;
 in(in_industry_dyn37)                                                  = YES;
@@ -616,14 +410,7 @@ pf_eff_target_dyn29(pf_eff_target_dyn37)    = YES;
 pf_quan_target_dyn29(pf_quan_target_dyn37)  = YES;
 $endif.calibrate
 
-teMat2rlf(tePrc,"1") = YES;
-alias(tePrc,teCCPrc);
-alias(tePrc,tePrc1);
-alias(tePrc,tePrc2);
-alias(opmoPrc,opmoCCPrc);
-alias(opmoPrc,opmoPrc1);
-alias(opmoPrc,opmoPrc2);
-alias(route,route2);
+teCCInd2rlf(teCCInd,"1") = YES;
 
 alias(secInd37_2_pf,secInd37_2_pf2);
 alias(fe2ppfEn37,fe2ppfEn37_2);
