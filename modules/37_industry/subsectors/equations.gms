@@ -31,10 +31,6 @@ q37_demFeIndst_intermediate(t,regi,entyFe,out,secInd37,emiMkt)$(
       vm_cesIO(t,regi,in)
     + pm_cesdata(t,regi,in,"offset_quantity")
     )
-  + sum(tePrc2ue(tePrc,opmoPrc,out),
-      pm_specFeDem(t,regi,entyFe,tePrc,opmoPrc)
-    * vm_outflowPrc(t,regi,tePrc,opmoPrc)
-    )
 ;
 
 q37_demFeIndst(t,regi,entySe,entyFe,emiMkt)$(
@@ -46,6 +42,13 @@ q37_demFeIndst(t,regi,entySe,entyFe,emiMkt)$(
   sum(entyFe_out_emiMkt(entyFe,out,emiMkt),
     v37_demFeIndst(t,regi,entySe,entyFe,out,emiMkt)
   )
+  + sum((secInd37_emiMkt(secInd37Prc,emiMkt),
+         secInd37_tePrc(secInd37Prc,tePrc),
+         tePrc2opmoPrc(tePrc,opmoPrc)),
+      pm_specFeDem(t,regi,entyFe,tePrc,opmoPrc)
+      *
+      vm_outflowPrc(t,regi,tePrc,opmoPrc)
+    )
 ;
 
 
