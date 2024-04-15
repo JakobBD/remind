@@ -41,7 +41,7 @@ q37_demFeIndst(t,regi,entySe,entyFe,emiMkt)$(
                                              sefe(entySe,entyFe)
                                          AND entyFe2Sector(entyFe,"indst")
                                          AND sector2emiMkt("indst",emiMkt) ) ..
-  vm_demFeSector_afterTax(t,regi,entySe,entyFe,"indst",emiMkt)
+  vm_demFeSector(t,regi,entySe,entyFe,"indst",emiMkt)
   =e=
   sum(entyFe_out_emiMkt(entyFe,out,emiMkt),
     v37_demFeIndst(t,regi,entySe,entyFe,out,emiMkt)

@@ -119,7 +119,7 @@ vm_cesIO.lo(t,regi_dyn29(regi),in_industry_dyn37(in))$(
 *' Cement CCS might otherwise become a compelling BioCCS option under very high
 *' carbon prices due to missing adjustment costs.
 if (cm_startyear gt 2005,   !! not a baeline or NPi scenario
-  vm_demFeSector_afterTax.up(t,regi,"sesobio","fesos","indst","ETS")
+  vm_demFeSector.up(t,regi,"sesobio","fesos","indst","ETS")
   = max(0.25 , smax(t2, pm_secBioShare(t2,regi,"fesos","indst") ) )
     * p37_BAU_industry_ETS_solids(t,regi);
 );
@@ -171,16 +171,16 @@ loop ((t,regi,entySe,entyFe,out,emiMkt,secInd37,in)$(
         AND ue_industry_2_pf(out,in)
         AND fe2ppfEn37(entyFe,in)
         AND sum(se2fe(entySe,entyFe,te),
-              vm_demFeSector_afterTax.l(t,regi,entySe,entyFe,"indst",emiMkt)
+              vm_demFeSector.l(t,regi,entySe,entyFe,"indst",emiMkt)
             )                                                                ),
   v37_demFeIndst.l(t,regi,entySe,entyFe,out,emiMkt)
   = sum((fe2ppfEn37_2(entyFe,in),ue_industry_2_pf(out,in)),
       vm_cesIO.l(t,regi,in)
     + pm_cesdata(t,regi,in,"offset_quantity")
     )
-  * vm_demFeSector_afterTax.l(t,regi,entySe,entyFe,"indst",emiMkt)
+  * vm_demFeSector.l(t,regi,entySe,entyFe,"indst",emiMkt)
   / sum(se2fe(entySe2,entyFe,te),
-      vm_demFeSector_afterTax.l(t,regi,entySe2,entyFe,"indst",emiMkt)
+      vm_demFeSector.l(t,regi,entySe2,entyFe,"indst",emiMkt)
     );
 );
 *** EOF ./modules/37_industry/subsectors/bounds.gms

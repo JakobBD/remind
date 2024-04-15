@@ -822,7 +822,7 @@ p_r(ttot,regi)$(ttot.val gt 2100) = 0.05;
 ***------------ FE prices ----------------------
 *** calculation of FE Prices including sector specific and energy source information
 p_FEPrice_by_SE_Sector_EmiMkt(t,regi,entySe,entyFe,sector,emiMkt)$(abs (qm_budget.m(t,regi)) gt sm_eps) =
-  q_balFeAfterTax.m(t,regi,entySe,entyFe,sector,emiMkt) / qm_budget.m(t,regi);
+  q_balFeForTax.m(t,regi,entySe,entyFe,sector,emiMkt) / qm_budget.m(t,regi);
 
 *** marginal prices of aggregates equal to minimal non-zero marginal price of full equation marginal
 loop((t,regi,entySe,entyFe,sector,emiMkt)$(sefe(entySe,entyFe) AND sector2emiMkt(sector,emiMkt) AND entyFe2Sector(entyFe,sector)),

@@ -11,15 +11,15 @@
 pm_FEPrice(ttot,regi,entyFe,"indst",emiMkt)$(
           abs(qm_budget.m(ttot,regi)) gt sm_eps
       AND sum(sefe(entySe,entyFe),
-            vm_demFeSector_afterTax.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
+            vm_demFeSector.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
           )                                                                   )
   = sum(sefe(entySe,entyFe),
       q37_demFeIndst.m(ttot,regi,entySe,entyFe,emiMkt)
     / qm_budget.m(ttot,regi)
-    * vm_demFeSector_afterTax.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
+    * vm_demFeSector.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
     )
   / sum(sefe(entySe,entyFe),
-      vm_demFeSector_afterTax.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
+      vm_demFeSector.l(ttot,regi,entySe,entyFe,"indst",emiMkt)
     );
 
 *** calculate reporting parameters for FE per subsector and SE origin to make R

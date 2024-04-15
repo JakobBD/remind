@@ -12,7 +12,7 @@
 q36_demFeBuild(ttot,regi,entyFe,emiMkt)$(ttot.val ge cm_startyear
                                          AND entyFe2Sector(entyFe,"build")) .. 
   sum((entySe,te)$se2fe(entySe,entyFe,te),
-      vm_demFeSector_afterTax(ttot,regi,entySe,entyFe,"build",emiMkt)) 
+      vm_demFeSector(ttot,regi,entySe,entyFe,"build",emiMkt)) 
   =e=
   sum(in$(fe2ppfEn(entyFe,in)
           AND ppfen_buildings_dyn36(in)),
@@ -37,7 +37,7 @@ q36_costAddH2PhaseIn(t,regi)..
   v36_costAddTeInvH2(t,regi,"tdh2s")
   =e=
   v36_costAddH2LowPen(t,regi)
-  * vm_demFeSector_afterTax(t,regi,"seh2","feh2s","build","ES")
+  * vm_demFeSector(t,regi,"seh2","feh2s","build","ES")
   + (v36_expSlack(t,regi) * 1e-8)
 ;
 
@@ -67,10 +67,10 @@ q36_H2Share(t,regi)..
   v36_H2share(t,regi) 
   * sum(se2fe(entySe,entyFe,te)$(SAMEAS(entyFe,"feh2s")
                                  OR SAMEAS(entyFe,"fegas")),   
-        vm_demFeSector_afterTax(t,regi,entySe,entyFe,"build","ES"))
+        vm_demFeSector(t,regi,entySe,entyFe,"build","ES"))
   =e=
   sum(se2fe(entySe,entyFe,te)$SAMEAS(entyFe,"feh2s"),
-      vm_demFeSector_afterTax(t,regi,entySe,entyFe,"build","ES"))
+      vm_demFeSector(t,regi,entySe,entyFe,"build","ES"))
 ;
 
 
@@ -93,7 +93,7 @@ q36_costCESmarkup(t,regi,in)$(ppfen_buildings_dyn36(in))..
 ***---------------------------------------------------------------------------
 q36_biotrBound(t,regi)$(t.val ge 2010 AND (pm_gdp("2005",regi)/pm_pop("2005",regi) / pm_shPPPMER(regi)) lt 4)..
   sum(sector2emiMkt('build',emiMkt),
-    vm_demFeSector_afterTax(t,regi,'sesobio','fesos','build',emiMkt)
+    vm_demFeSector(t,regi,'sesobio','fesos','build',emiMkt)
   )
   =g=
   vm_prodSe(t,regi,"pebiolc","sesobio","biotr")
