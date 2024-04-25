@@ -114,7 +114,7 @@ vm_cesIO.lo(t,regi_dyn29(regi),in_industry_dyn37(in))$(
                                                   0 eq vm_cesIO.lo(t,regi,in) )
   = max(sm_eps, abs(pm_cesdata(t,regi,in,"offset_quantity")));
 
-*' Limit biomass solids use in industry to 25% (or historic shares, if they are 
+*' Limit biomass solids use in industry to 25% (or historic shares, if they are
 *' higher) of baseline solids
 *' Cement CCS might otherwise become a compelling BioCCS option under very high
 *' carbon prices due to missing adjustment costs.
@@ -155,6 +155,11 @@ if (cm_CCS_chemicals ne 1 OR cm_IndCCSscen ne 1,
 if (cm_CCS_cement ne 1 OR cm_IndCCSscen ne 1,
   vm_cap.fx(t,regi,"cementcc",rlf) = 0.;
 );
+
+vm_cap.up("2030",regi,"steelcc","1") = p37_industry_CCS_limits(regi,"steel");
+vm_cap.up("2030",regi,"chemicalscc","1") = p37_industry_CCS_limits(regi,"chemicals");
+vm_cap.up("2030",regi,"cementcc","1") = p37_industry_CCS_limits(regi,"cement");
+
 
 *** Populate values for v37_demFeIndst to ease introduction of new variale.  Can
 *** be removed once the variable is established.

@@ -1126,6 +1126,19 @@ $IFTHEN.WindOff %cm_wind_offshore% == "1"
 p_adj_deltacapoffset(t,regi,"windoff")= p_adj_deltacapoffset(t,regi,"wind");
 $ENDIF.WindOff
 
+
+Parameter
+  f37_industry_CCS_limits(tall,all_regi,secInd37)   "Industry CCS upper bounds derived from project announcements"
+  /
+$ondelim
+$include "./modules/37_industry/subsectors/input/f_industry_CCS_limits_by-country.cs4r";
+$offdelim
+  /
+;
+p37_industry_CCS_limits(regi,secInd37)
+  = f37_industry_CCS_limits("2030",regi,secInd37);
+
+
 *** share of PE2SE capacities in 2005 depends on GDP-MER
 p_adj_seed_reg(t,regi) = pm_gdp(t,regi) * 1e-4;
 
@@ -1145,9 +1158,9 @@ loop(ttot$(ttot.val ge 2005),
   p_adj_seed_te(ttot,regi,'dac')             = 0.25;
   p_adj_seed_te(ttot,regi,'geohe')           = 0.33;
 
-  p_adj_seed_te(ttot,regi,"steelcc")         = 0.05;
-  p_adj_seed_te(ttot,regi,"chemicalscc")     = 0.05;
-  p_adj_seed_te(ttot,regi,"cementcc")        = 0.05;
+  p_adj_seed_te(ttot,regi,"steelcc")         = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"steel"));
+  p_adj_seed_te(ttot,regi,"chemicalscc")     = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"chemicals"));
+  p_adj_seed_te(ttot,regi,"cementcc")        = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"cement"));
 
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
   p_adj_seed_te(ttot,regi,"windoff") = 0.5;
