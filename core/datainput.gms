@@ -1131,12 +1131,15 @@ Parameter
   f37_industry_CCS_limits(tall,all_regi,secInd37)   "Industry CCS upper bounds derived from project announcements"
   /
 $ondelim
-$include "./modules/37_industry/subsectors/input/f_industry_CCS_limits_by-country.cs4r";
+$ifthen.cm_industry_ccs_limit %cm_industry_ccs_limit% == "default"
+$include "./modules/37_industry/subsectors/input/f37_indCCSlimit_default.cs4r";
+$endif.cm_industry_ccs_limit
+$ifthen.cm_industry_ccs_limit %cm_industry_ccs_limit% == "high"
+$include "./modules/37_industry/subsectors/input/f37_indCCSlimit_high.cs4r";
+$endif.cm_industry_ccs_limit
 $offdelim
   /
 ;
-p37_industry_CCS_limits(regi,secInd37)
-  = f37_industry_CCS_limits("2030",regi,secInd37);
 
 
 *** share of PE2SE capacities in 2005 depends on GDP-MER
@@ -1158,9 +1161,9 @@ loop(ttot$(ttot.val ge 2005),
   p_adj_seed_te(ttot,regi,'dac')             = 0.25;
   p_adj_seed_te(ttot,regi,'geohe')           = 0.33;
 
-  p_adj_seed_te(ttot,regi,"steelcc")         = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"steel"));
-  p_adj_seed_te(ttot,regi,"chemicalscc")     = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"chemicals"));
-  p_adj_seed_te(ttot,regi,"cementcc")        = 10. * sum(all_regi,p37_industry_CCS_limits(all_regi,"cement"));
+  p_adj_seed_te(ttot,regi,"steelcc")         =  10.*max(0.5*f37_industry_CCS_limits("2035",regi,"steel")    ,0.01*sum(all_regi,f37_industry_CCS_limits("2030",all_regi,"steel")));
+  p_adj_seed_te(ttot,regi,"chemicalscc")     = 100.*max(0.5*f37_industry_CCS_limits("2035",regi,"chemicals"),0.01*sum(all_regi,f37_industry_CCS_limits("2030",all_regi,"chemicals")));
+  p_adj_seed_te(ttot,regi,"cementcc")        = 100.*max(0.5*f37_industry_CCS_limits("2035",regi,"cement")   ,0.01*sum(all_regi,f37_industry_CCS_limits("2030",all_regi,"cement")));
 
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
   p_adj_seed_te(ttot,regi,"windoff") = 0.5;
@@ -1193,9 +1196,9 @@ $ENDIF.WindOff
   p_adj_coeff(ttot,regi,"wind")            = 0.25;
   p_adj_coeff(ttot,regi,"geohe")           = 0.6;
 
-  p_adj_coeff(ttot,regi,"steelcc")         = 1.0;
-  p_adj_coeff(ttot,regi,"chemicalscc")     = 1.0;
-  p_adj_coeff(ttot,regi,"cementcc")        = 1.0;
+  p_adj_coeff(ttot,regi,"steelcc")         = 1.5;
+  p_adj_coeff(ttot,regi,"chemicalscc")     = 0.5;
+  p_adj_coeff(ttot,regi,"cementcc")        = 0.25;
 
 $IFTHEN.WindOff %cm_wind_offshore% == "1"
 

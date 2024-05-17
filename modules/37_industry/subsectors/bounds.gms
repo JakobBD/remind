@@ -156,9 +156,13 @@ if (cm_CCS_cement ne 1 OR cm_IndCCSscen ne 1,
   vm_cap.fx(t,regi,"cementcc",rlf) = 0.;
 );
 
-vm_cap.up("2030",regi,"steelcc","1") = p37_industry_CCS_limits(regi,"steel");
-vm_cap.up("2030",regi,"chemicalscc","1") = p37_industry_CCS_limits(regi,"chemicals");
-vm_cap.up("2030",regi,"cementcc","1") = p37_industry_CCS_limits(regi,"cement");
+
+vm_cap.up("2025",regi,"steelcc","1")     = f37_industry_CCS_limits("2025",regi,"steel");
+vm_cap.up("2025",regi,"chemicalscc","1") = f37_industry_CCS_limits("2025",regi,"chemicals");
+vm_cap.up("2025",regi,"cementcc","1")    = f37_industry_CCS_limits("2025",regi,"cement");
+vm_cap.up("2030",regi,"steelcc","1")     = f37_industry_CCS_limits("2030",regi,"steel");
+vm_cap.up("2030",regi,"chemicalscc","1") = f37_industry_CCS_limits("2030",regi,"chemicals");
+vm_cap.up("2030",regi,"cementcc","1")    = f37_industry_CCS_limits("2030",regi,"cement");
 
 
 *** Populate values for v37_demFeIndst to ease introduction of new variale.  Can

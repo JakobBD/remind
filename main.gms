@@ -1665,6 +1665,10 @@ $setglobal cm_taxrc_RE  none   !! def = none   !! regexp = none|REdirect
 *' *  (off): no, only infeasable regions are repeated, standard setting
 *' *  (on):  also non-optimal regions are solved again, up to cm_solver_try_max
 $setglobal cm_repeatNonOpt off      !! def = off  !! regexp = off|on
+*** industry ccs
+*** cm_industry_ccs_limit
+*** cm_industry_ccs_limit  0, means wind energy is only represented by "wind", which is a mixture of both wind onshore and wind offshore
+$setglobal cm_industry_ccs_limit  default      !! def = default !! regexp = default|high
 
 *' @stop
 

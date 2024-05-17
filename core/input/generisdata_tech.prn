@@ -176,7 +176,7 @@ inco0=X$/tCO2 -> 50% CAPEX /2 -> to $/tC *(44/12) -> to $/(tC/a) with discount -
 omf ~ capex
 $offtext
 +                steelcc chemicalscc    cementcc
-inco0               1452        1760        2926
+inco0               1452        1760        1188
 omf                 0.08        0.08        0.08
 lifetime              20          20          20
 

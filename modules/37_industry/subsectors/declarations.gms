@@ -24,7 +24,6 @@ Parameters
   p37_cesIO_baseline(tall,all_regi,all_in)                                     "vm_cesIO from the baseline scenario"
 
   p37_captureRate(all_te)                                                      "Capture rate of CCS technology"
-  p37_industry_CCS_limits(all_regi,secInd37)                                   "Industry CCS upper bounds derived from project announcements"
 
   p37_chemicals_feedstock_share(ttot,all_regi)               "minimum share of feso/feli/fega in total chemicals FE input [0-1]"
   p37_FeedstockCarbonContent(ttot,all_regi,all_enty)         "carbon content of feedstocks [GtC/TWa]"

@@ -525,6 +525,6 @@ $endIf.cm_wasteIncinerationCCSshare
 
 p37_captureRate("steelcc") = 0.74;
 p37_captureRate("chemicalscc") = 0.57;
-p37_captureRate("cementcc") = 0.76;
+p37_captureRate("cementcc") = 0.70;
 
 *** EOF ./modules/37_industry/subsectors/datainput.gms
