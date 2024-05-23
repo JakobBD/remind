@@ -1,0 +1,20 @@
+regi,{r}
+ttot,{t}
+te,{T}
+entySe,{{}^{se}e}
+entyFe,{{}^{fe}e}
+sector,{s}
+emiMkt,{m}
+v02_welfare,{\tilde{U}}
+pm_welf,{w}
+pm_ts,{\Delta t}
+pm_prtp,{\xi}
+pm_ttot_val,{t}
+pm_pop,{p}
+vm_cons,{C}
+pm_ies,{\eta}
+v02_inconvPen,{\mathfrak{I}}
+v02_inconvPenCoalSolids,{{}^{C}\mathfrak{I}}
+v02_NegInconvPenFeBioSwitch,{{}^{B-}\mathfrak{I}}
+v02_PosInconvPenFeBioSwitch,{{}^{B+}\mathfrak{I}}
+
