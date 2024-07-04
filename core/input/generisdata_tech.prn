@@ -177,7 +177,7 @@ lifetime              20          20          20          20
 
 +                   bfcc       idrcc
 !! documentation & sources: see below
-inco0               1100         900
+inco0                880         720
 omf                 0.06        0.06
 lifetime              20          20
 $endif.cm_subsec_model_steel
