@@ -263,7 +263,7 @@ q37_feedstocksShares(t,regi,entySe,entyFe,emiMkt)$(
 *' Calculate mass of carbon contained in chemical feedstocks
 q37_FeedstocksCarbon(t,regi,sefe(entySe,entyFe),emiMkt)$(
                          entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt) ) ..
-  v37_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
+  vm_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
   =e=
     vm_demFENonEnergySector(t,regi,entySe,entyFe,"indst",emiMkt)
   * p37_FeedstockCarbonContent(t,regi,entyFe)
@@ -274,7 +274,7 @@ q37_plasticsCarbon(t,regi,sefe(entySe,entyFe),emiMkt)$(
                          entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt) ) ..
   vm_plasticsCarbon(t,regi,entySe,entyFe,emiMkt)
   =e=
-    v37_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
+    vm_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
   * s37_plasticsShare
 ;
 
@@ -329,7 +329,7 @@ q37_feedstockEmiUnknownFate(t,regi,sefe(entySe,entyFe),emiMkt)$(
   =e=
 $ifthen.cm_feedstockEmiUnknownFate not "%cm_feedstockEmiUnknownFate%" == "off"
   (
-    v37_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
+    vm_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
   * (1 - s37_plasticsShare)
   )
 $else.cm_feedstockEmiUnknownFate

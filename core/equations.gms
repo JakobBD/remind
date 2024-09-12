@@ -602,21 +602,18 @@ q_emiTeMkt(t,regi,emiTe(enty),emiMkt) ..
   - sum(emiInd37_fuel,
       vm_emiIndCCS(t,regi,emiInd37_fuel)
     )$( sameas(enty,"co2") AND sameas(emiMkt,"ETS") )
-    !! substract carbon from non-fossil origin contained in plastics that don't
-    !! get incinerated ("plastic removals")
+    !! subtract carbon content of chemicals feedstocks (portion of
+    !! vm_emiTeDetailMkt that is not burned as energy)
   - sum((entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt),
-         se2fe(entySe,entyFe,te)),
-      vm_plasticsCarbon(t,regi,entySe,entyFe,emiMkt)
+         sefe(entySe,entyFe)),
+      vm_FeedstocksCarbon(t,regi,entySe,entyFe,emiMkt)
     )$( sameas(enty,"co2") )
-    !! add fossil emissions from plastics incineration.
+    !! add back (uncaptured) emissions from plastics incineration and chemical
+    !! feedstocks with "unknown fate" derived from fossil fuels
   + sum((entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt),
-         se2fe(entySe,entyFe,te)),
+         sefe(entySe,entyFe))$( entySeFos(entySe) ),
       vm_incinerationEmi(t,regi,entySe,entyFe,emiMkt)
-    )$( sameas(enty,"co2") )
-    !! add fossil emissions from chemical feedstock with unknown fate
-  + sum((entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt),
-         se2fe(entySe,entyFe,te))$( entySeFos(entySe) ),
-      vm_feedstockEmiUnknownFate(t,regi,entySe,entyFe,emiMkt)
+    + vm_feedstockEmiUnknownFate(t,regi,entySe,entyFe,emiMkt)
     )$( sameas(enty,"co2") )
     !! Valve from cco2 capture step, to mangage if capture capacity and CCU/CCS
     !! capacity don't have the same lifetime
