@@ -88,7 +88,7 @@ Positive Variables
   vm_emiIndCCS(ttot,all_regi,all_enty)                                      "industry CCS emissions [GtC/a]"
   vm_IndCCSCost(ttot,all_regi,all_enty)                                     "industry CCS cost"
   v37_emiIndCCSmax(ttot,all_regi,emiInd37)                                  "maximum abatable industry emissions"
-  v37_FeedstocksCarbon(ttot,all_regi,all_enty,all_enty,all_emiMkt)          "Carbon flow: carbon contained in chemical feedstocks [GtC]"
+  vm_FeedstocksCarbon(ttot,all_regi,all_enty,all_enty,all_emiMkt)          "Carbon flow: carbon contained in chemical feedstocks [GtC]"
   vm_plasticsCarbon(ttot,all_regi,all_enty,all_enty,all_emiMkt)             "Carbon flow: carbon contained in plastics [GtC]"
   v37_plasticWaste(ttot,all_regi,all_enty,all_enty,all_emiMkt)              "Carbon flow: carbon contained in plastic waste [GtC]"
   v37_regionalWasteIncinerationCCSshare(tall,all_regi)                      "share of waste incineration that is captured [%]"
