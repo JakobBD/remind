@@ -23,7 +23,7 @@ sm_macChange,                parameter,  not needed
 sm_tmp2,                     parameter,  not needed
 sm_TWa_2_MWh,                input,      questionnaire
 v37_FeedstocksCarbon,        variable,   not needed
-v37_plasticsCarbon,          variable,   not needed
+vm_plasticsCarbon,           variable,   not needed
 v37_plasticWaste,            variable,   not needed
 vm_capFac,                   variable,   not needed
 vm_cap,                      variable,   not needed
@@ -32,5 +32,4 @@ vm_demFENonEnergySector,     variable,   not needed
 vm_feedstockEmiUnknownFate,  variable,   not needed
 vm_incinerationCCS,          variable,   does not want to play
 vm_incinerationEmi,          variable,   not needed
-vm_nonIncineratedPlastics,   variable,   not needed
 vm_outflowPrc,               variable,   not needed
