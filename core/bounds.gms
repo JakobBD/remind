@@ -21,7 +21,7 @@ vm_costTeCapital.fx(t,regi,teNoLearn)     = pm_inco0_t(t,regi,teNoLearn);
 *' @title{extrapage: "00_model_assumptions"} Model Assumptions
 *' @code{extrapage: "00_model_assumptions"}
 
-*' ### Model Bounds and Assumptions: 
+*' ### Model Bounds and Assumptions:
 
 *' #### Model Bounds in Core
 *' Lower limit on all P2SE technologies capacities to 100 kW of all technologies and all time steps
@@ -34,7 +34,7 @@ loop(pe2se(enty,enty2,te) $ (
     (not sameas(te,"tnrs"))
   ),
   vm_cap.lo(t,regi,te,"1")$(t.val gt 2026 AND t.val le 2070) = 1e-7;
-  if( (NOT teCCS(te)), 
+  if( (NOT teCCS(te)),
     vm_deltaCap.lo(t,regi,te,"1")$(t.val gt 2026 AND t.val le 2070) = 1e-8;
   );
 );
@@ -333,7 +333,7 @@ loop(regi,
 
 *** no technologies with tech_stat 4 before 2025
 vm_cap.fx(t,regi,te,rlf)$(t.val le 2020 AND pm_data(regi,"tech_stat",te) eq 4)=0;
-*** initialize cumulative capacity of tech_stat 4 technologies at 0 
+*** initialize cumulative capacity of tech_stat 4 technologies at 0
 *** (not at ccap0 from generisdata_tech.prn which gives the cucmulative capacity
 ***  at the initial investment cost of the first year in which the technology can be built)
 vm_capCum.fx(t0,regi,teLearn)$(pm_data(regi,"tech_stat",teLearn) eq 4) = 0;
@@ -383,14 +383,14 @@ vm_deltaCap.up(t,regi,"dot","1")$( (t.val gt 2005) AND regi_group("EUR_regi",reg
 *' #### Bound on maximum annual carbon storage by region
 *** -----------------------------------------------------------------------------
 *' DK 20100929: default value (pm_ccsinjecrate= 0.5%) is consistent with Interview Gerling (BGR)
-*' (http://www.iz-klima.de/aktuelles/archiv/news-2010/mai/news-05052010-2/): 
+*' (http://www.iz-klima.de/aktuelles/archiv/news-2010/mai/news-05052010-2/):
 *' 12 Gt storage potential in Germany, 50-75 Mt/a injection => 60 Mt/a => 60/12000=0.005
 *** if c_ccsinjecratescen=0 --> no CCS at all and vm_co2CCS is fixed to 0 before, therefore the upper bound is only set if there should be CCS!
 *** -----------------------------------------------------------------------------
 
 if ( c_ccsinjecratescen gt 0,
     loop(regi,
-       vm_co2CCS.up(t,regi,"cco2","ico2","ccsinje","1") = pm_dataccs(regi,"quan","1") * pm_ccsinjecrate(regi);
+       vm_co2CCS_noSteel.up(t,regi) = pm_dataccs(regi,"quan","1") * pm_ccsinjecrate(regi);
     );
 );
 *' @stop
@@ -408,7 +408,7 @@ $endif
 
 *** -------------------------------------------------------------------------------------------------------------
 *** Lower limit for 2020-2030 is capacities of all projects that are operational (2020-2030) from project data base
-*** Upper limit for 2025 and 2030 additionally includes all projects under construction and 30% 
+*** Upper limit for 2025 and 2030 additionally includes all projects under construction and 30%
 *** (default, or changed by c_fracRealfromAnnouncedCCScap2030) of announced/planned projects from project data base
 *** See also corresponding code in input validation data preparation in mrremind/R/calcProjectPipeline.R.
 *** In nash-mode regions cannot easily share ressources, therefore CCS potentials are redistributed in Europe in data preprocessing in mrremind:
@@ -440,7 +440,7 @@ loop(regi,
 );
 
 *** -------------------------------------------------------------------------------------------------------------
-*** Limit REMINDs ability to vent captured CO2 to 1 MtCO2 per yr per region. This happens otherwise to a great extend in stringent climate 
+*** Limit REMINDs ability to vent captured CO2 to 1 MtCO2 per yr per region. This happens otherwise to a great extend in stringent climate
 *** policy scenarios if CCS and CCU capacities are limited in early years, to lower overall adjustment costs of capture technologies.
 *** In reality, people don't have perfect foresight and without storage or usage capacities, no capture facilities will be built.
 v_co2capturevalve.up(t,regi) = 1 * s_MtCO2_2_GtC;
@@ -543,7 +543,7 @@ vm_demFeSector.up(t,regi,"seh2","feh2s","build",emiMkt)$(t.val le cm_H2InBuildOn
 ***----------------------------------------------------------------------------
 ***  Controlling if active, dampening factor to align edge-t non-energy transportation costs with historical GDP data
 ***----------------------------------------------------------------------------
-$IFTHEN.transpGDPscale not "%cm_transpGDPscale%" == "on" 
+$IFTHEN.transpGDPscale not "%cm_transpGDPscale%" == "on"
   vm_transpGDPscale.fx(t,regi) = 1;
 $ENDIF.transpGDPscale
 
