@@ -879,10 +879,10 @@ q_transCCS(t,regi,ccs2te(enty,enty2,te),ccs2te2(enty2,enty3,te2),rlf)$teCCS2rlf(
         =e=
         vm_co2CCS(t,regi,enty2,enty3,te2,rlf);
 
-q_limitCCS(regi,ccs2te2(enty,"ico2",te),rlf)$teCCS2rlf(te,rlf)..
-        sum(ttot $(ttot.val ge 2005), pm_ts(ttot) * vm_co2CCS(ttot,regi,enty,"ico2",te,rlf))
+q_limitCCS(regi)..
+        sum(t, pm_ts(t) * vm_co2CCS_noSteel(ttot,regi)
         =l=
-        pm_dataccs(regi,"quan",rlf);
+        pm_dataccs(regi,"quan","1");
 
 ***---------------------------------------------------------------------------
 *' Emission constraint on SO2 after 2050:
