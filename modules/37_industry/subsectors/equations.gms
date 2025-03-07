@@ -330,8 +330,8 @@ q37_incinerationCCS(t,regi,sefe(entySe,entyFe),emiMkt)$(
 ;
 
 *' sum non-fossil carbon from plastics that get incinerated with carbon capture
-q37_nonFosPlastic_incinCC(t,regi,emiMkt).. 
-  vm_nonFosPlastic_incinCC(t,regi,emiMkt) 
+q37_nonFosPlastic_incinCC(t,regi,emiMkt)..
+  vm_nonFosPlastic_incinCC(t,regi,emiMkt)
   =e=
   sum((entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt),
          se2fe(entySe,entyFe,te))$( entySeBio(entySe) OR entySeSyn(entySe) ),
@@ -357,7 +357,7 @@ q37_emiNonFosNonIncineratedPlastics(t,regi,emi,emiMkt)..
 
 *' calculate non-fossil carbon in non-plastic waste that does not get emitted to the atmosphere (i.e. is stored permanently)
 q37_nonFosNonPlasticNonEmitted(t,regi)..
- vm_nonFosNonPlasticNonEmitted(t,regi)  
+ vm_nonFosNonPlasticNonEmitted(t,regi)
  =e=
    sum((entyFE2sector2emiMkt_NonEn(entyFe,"indst",emiMkt),
           se2fe(entySe,entyFe,te))$( entySeBio(entySe) OR entySeSyn(entySe) ),
@@ -377,7 +377,7 @@ q37_emiNonPlasticWaste(t,regi,emi,emiMkt)..
 *' fossil carbon in non-plastic waste that gets emitted to the atmosphere
       v37_feedstocksCarbon(t,regi,entySe,entyFe,emiMkt2)  * (1 - s37_plasticsShare) * cm_nonPlasticFeedstockEmiShare)
 *' non-fossil carbon in non-plastic waste that does not get emitted to the atmosphere (i.e. is stored permanently)
-  - vm_nonFosNonPlasticNonEmitted(t,regi) 
+  - vm_nonFosNonPlasticNonEmitted(t,regi)
   )$( sameas(emi,"co2") AND sameas(emiMkt,"ES") )
 ;
 
@@ -474,11 +474,22 @@ q37_mat2ue(t,regi,mat,in)$( ppfUePrc(in) ) ..
 ***------------------------------------------------------
 *' Definition of capacity constraints
 ***------------------------------------------------------
-q37_limitCapMat(t,regi,tePrc) ..
+q37_limitCapMatHist(t,regi,tePrc)$(t.val le 2020) ..
     sum(tePrc2opmoPrc(tePrc,opmoPrc),
       vm_outflowPrc(t,regi,tePrc,opmoPrc)
     )
     =l=
+    sum(teMat2rlf(tePrc,rlf),
+      vm_capFac(t,regi,tePrc)
+    * vm_cap(t,regi,tePrc,rlf)
+    )
+;
+
+q37_limitCapMat(t,regi,tePrc)$(t.val gt 2020) ..
+    sum(tePrc2opmoPrc(tePrc,opmoPrc),
+      vm_outflowPrc(t,regi,tePrc,opmoPrc)
+    )
+    =e=
     sum(teMat2rlf(tePrc,rlf),
       vm_capFac(t,regi,tePrc)
     * vm_cap(t,regi,tePrc,rlf)
