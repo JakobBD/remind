@@ -97,21 +97,21 @@ flexibility          -1           -1         -1          -1
 
 +            storwindon  storwindoff     storspv    storcsp       gridwindon
 inco0              2940         2940        7720       2520       720
-floorcost           850          850        2280        720 
-mix0               0.00         0.00        0.00       0.00       
+floorcost           850          850        2280        720
+mix0               0.00         0.00        0.00       0.00
 eta                0.85         0.85        0.74       0.79       1
 omf                0.02         0.02        0.02       0.02       0.02
 lifetime             25           25          25         25       45
-ccap0           0.00005      0.00005     0.00005    0.00005 
-learn              0.10         0.10        0.10       0.10 
+ccap0           0.00005      0.00005     0.00005    0.00005
+learn              0.10         0.10        0.10       0.10
 flexibility        1.86         1.93        1.85       1.85
 
 
 *** other electricty
-+                 geohdr       geohe       hydro    tnrs 
++                 geohdr       geohe       hydro    tnrs
 tech_stat            1
 inco0               3600        1200        2700    4700
-constrTme            4           1           5         7 
+constrTme            4           1           5         7
 eta                 1.00        1.00        1.00    4.41
 omf                 0.04        0.06       0.025    0.03
 omv                                                   36
@@ -132,7 +132,7 @@ inco0                 360       360          60         600         600         
 mix0                 1.00      1.00        1.00        1.00        1.00        1.00        1.00
 eta                  0.85      0.85        1.00        1.00        1.00        0.85        0.85
 omf                  0.02      0.02        0.03        0.10        0.10        0.02        0.02
-lifetime               45        45          30          45          45          45          45   
+lifetime               45        45          30          45          45          45          45
 
 +                tdbiosos   tdfossos      tdhes    tdbiodie    tdfosdie    tdbiopet    tdfospet      tdelt
 inco0                  60        60         600         600         600         600         600       6000
@@ -160,26 +160,26 @@ $ifthen.cm_subsec_model_steel "%cm_subsec_model_steel%" == "processes"
 *** industry processes
 +                     bf         bof         idr         eaf
 tech_stat
-inco0              400.0       200.0       350.0       350.0
-omf                 0.06        0.06        0.06        0.06
-lifetime              20          20          20          20
+inco0              550.0       275.0       483.0       483.0
+omf                0.043       0.043       0.043       0.043
+lifetime              40          40          40          40
 
 +                   bfcc       idrcc
-inco0               1100         900
-omf                 0.06        0.06
-lifetime              20          20
+inco0               1520        1240
+omf                0.043       0.043
+lifetime              40          40
 $endif.cm_subsec_model_steel
 
 
 
 *** deprecated technologies
-+                  solhe    fnrs      dhp  
-inco0               9999    6000      360  
-constrTme             1     7           1  
-lifetime              25    50         25  
-eta                 1.00    1012     0.80  
-omf                         0.03     0.03  
-omv                         76         12  
++                  solhe    fnrs      dhp
+inco0               9999    6000      360
+constrTme             1     7           1
+lifetime              25    50         25
+eta                 1.00    1012     0.80
+omf                         0.03     0.03
+omv                         76         12
 flexibility                 0.44
 
 
@@ -240,7 +240,7 @@ Photovoltaics - spv
     overall learning rate was increased to 25% and floor costs decreased to 50$2015/kW, as recent
     (2024) prices in various IEA-PVPS reports or other market reports show learning was faster than expected.
 
-Concentrating solar power - csp 
+Concentrating solar power - csp
     "When a CSP plant is combined with thermal storage, the size of the solar field is usually increased relative
     to the generator size to generate enough solar thermal energy. This is measured in 'solar multiples' (SM):
     A CSP plant with SM1 generates enough heat at reference irradiance to run the turbine at nominal power,
